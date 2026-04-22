@@ -10,8 +10,7 @@ class OracleClient:
             "password": settings.ORACLE_PASSWORD,
             "dsn": settings.ORACLE_DSN
         }
-        if hasattr(oracledb, "init_oracle_client"):
-            oracledb.init_oracle_client()
+        # Use Thin mode by default (no init_oracle_client needed)
         oracledb.defaults.fetch_lobs = False
 
     def get_connection(self):
