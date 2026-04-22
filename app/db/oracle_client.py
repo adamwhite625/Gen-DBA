@@ -12,6 +12,7 @@ class OracleClient:
         }
         if hasattr(oracledb, "init_oracle_client"):
             oracledb.init_oracle_client()
+        oracledb.defaults.fetch_lobs = False
 
     def get_connection(self):
         """Create and return a new database connection."""
