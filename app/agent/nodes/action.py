@@ -1,9 +1,11 @@
 from app.agent.state import AgentState, AgentPhase
 from app.db.oracle_client import oracle_client
+from app.db.ddl_manager import ddl_manager
+from app.db.audit import record_audit, AuditEntry
 from app.config import settings
 
 def action_node(state: AgentState) -> AgentState:
-    """Execute the approved DDL scripts on the Oracle database."""
+    """Execute the approved DDL scripts safely and audit the operations."""
     state.phase = AgentPhase.EXECUTING
 
     if not state.is_approved:
@@ -22,8 +24,21 @@ def action_node(state: AgentState) -> AgentState:
         if not ddl:
             continue
 
-        result = oracle_client.execute_ddl(ddl)
+        # Execute using safe DDL manager
+        result = ddl_manager.execute_ddl_with_backup(rec.target_table, ddl)
         
+        # Record audit log
+        audit_entry = AuditEntry(
+            run_id=state.run_id,
+            table_name=rec.target_table,
+            operation=rec.strategy,
+            ddl_script=ddl,
+            backup_ddl=result.get("backup_ddl", ""),
+            success=result.get("success", False),
+            error_message=result.get("message", "")
+        )
+        record_audit(audit_entry)
+
         if result.get("success"):
             state.executed_ddl.append(ddl)
         else:
