@@ -1,4 +1,4 @@
-"""Cac cau truy van Oracle dinh san cho viec thu thap workload va metadata."""
+"""Predefined Oracle SQL queries for gathering workload and metadata."""
 
 GET_TOP_SQL = """
     SELECT sql_id, sql_text, executions,

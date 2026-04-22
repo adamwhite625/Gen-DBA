@@ -1,4 +1,3 @@
-"""Schema trang thai tac tu, dinh nghia toan bo du lieu chay qua pipeline LangGraph."""
 from typing import Optional, List
 from datetime import datetime
 from enum import Enum
@@ -24,11 +23,19 @@ class WorkloadEntry(BaseModel):
 
 class PartitionRecommendation(BaseModel):
     target_table: str
-    strategy: str  # 'RANGE', 'HASH', 'LIST'
+    strategy: str  # e.g., 'RANGE', 'HASH', 'LIST'
     partition_key: str
     ddl_script: str
     reasoning: str
     risk_level: str = "medium"
+
+class PerformanceSnapshot(BaseModel):
+    timestamp: datetime = Field(default_factory=datetime.now)
+    avg_query_latency_ms: float = 0.0
+    total_buffer_gets: int = 0
+    total_disk_reads: int = 0
+    total_elapsed_time_ms: float = 0.0
+    query_count: int = 0
 
 class AgentState(BaseModel):
     run_id: str = ""
@@ -38,3 +45,6 @@ class AgentState(BaseModel):
     is_approved: Optional[bool] = None
     executed_ddl: List[str] = []
     error_message: str = ""
+    before_snapshot: Optional[PerformanceSnapshot] = None
+    after_snapshot: Optional[PerformanceSnapshot] = None
+    improvement_report: str = ""

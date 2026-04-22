@@ -1,19 +1,14 @@
-"""Node Thu Thap: Thu thap thong tin workload tu Oracle."""
-from app.agent.state import AgentState, AgentPhase, WorkloadEntry
+from app.agent.state import AgentState, AgentPhase, WorkloadEntry, PerformanceSnapshot
 from app.db.oracle_client import oracle_client
 from app.db import queries
 from app.config import settings
 
 def perception_node(state: AgentState) -> AgentState:
-    """
-    Truy van V$SQL de lay danh sach cac cau lenh SQL dang tieu ton tai nguyen.
-    """
-    print("--- NODE: PERCEPTION ---")
+    """Fetch top resource-consuming SQL queries from V$SQL in the database."""
     state.phase = AgentPhase.PERCEIVING
     schema_name = settings.ORACLE_USER.upper()
 
     try:
-        # Lay top SQL
         raw_workload = oracle_client.execute_query(
             queries.GET_TOP_SQL,
             {"schema_name": schema_name, "limit": 20}
@@ -29,12 +24,24 @@ def perception_node(state: AgentState) -> AgentState:
                 disk_reads=row["DISK_READS"]
             ) for row in raw_workload
         ]
-        
-        print(f"  Thu thap duoc {len(state.workload_entries)} cau lenh SQL.")
-        
+
+        if not state.before_snapshot and state.workload_entries:
+            total_elapsed = sum(w.elapsed_time_ms for w in state.workload_entries)
+            total_buffer = sum(w.buffer_gets for w in state.workload_entries)
+            total_disk = sum(w.disk_reads for w in state.workload_entries)
+            count = len(state.workload_entries)
+
+            state.before_snapshot = PerformanceSnapshot(
+                avg_query_latency_ms=total_elapsed / count,
+                total_buffer_gets=total_buffer,
+                total_disk_reads=total_disk,
+                total_elapsed_time_ms=total_elapsed,
+                query_count=count,
+            )
+            
     except Exception as e:
         state.phase = AgentPhase.FAILED
         state.error_message = f"Perception failed: {str(e)}"
-        print(f"  Loi: {e}")
+
         
     return state
