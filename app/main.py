@@ -1,12 +1,16 @@
 """Diem vao ung dung FastAPI cho he thong Tac tu Gen-DBA."""
 from fastapi import FastAPI
 from app.api.routes import agent, partitions, metrics
+import oracledb
+from app.api.error_handler import oracle_error_handler
 
 app = FastAPI(
     title="Gen-DBA API",
     description="He thong Tac tu AI tu dong toi uu phan manh du lieu Oracle 19c",
     version="0.1.0"
 )
+
+app.add_exception_handler(oracledb.DatabaseError, oracle_error_handler)
 
 # Dang ky cac route
 app.include_router(agent.router, prefix="/api/agent", tags=["Agent"])
