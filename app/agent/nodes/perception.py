@@ -1,3 +1,4 @@
+"""Perception node: collects workload data from Oracle V$SQL."""
 from app.agent.state import AgentState, AgentPhase, WorkloadEntry, PerformanceSnapshot
 from app.db.oracle_client import oracle_client
 from app.db import queries

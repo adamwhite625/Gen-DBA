@@ -1,3 +1,4 @@
+"""Agent state schema and data models for the LangGraph pipeline."""
 from typing import Optional, List
 from datetime import datetime
 from enum import Enum

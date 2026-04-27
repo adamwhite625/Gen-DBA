@@ -1,3 +1,4 @@
+"""Audit trail storage for all DDL operations executed by the agent."""
 from datetime import datetime
 from pydantic import BaseModel, Field
 

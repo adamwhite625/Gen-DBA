@@ -1,3 +1,4 @@
+"""Global exception handlers for the FastAPI application."""
 from fastapi import Request
 from fastapi.responses import JSONResponse
 from app.logger import logger

@@ -3,11 +3,10 @@ import sys
 
 def create_gendba_user():
     try:
-        # Connecting to PDB as SYSDBA to grant system view access
         conn = oracledb.connect(
             user='sys',
             password='Thien123456',
-            dsn='localhost:1521/orclpdb',
+            dsn='localhost:1521/orcl2',
             mode=oracledb.SYSDBA
         )
         cur = conn.cursor()

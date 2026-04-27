@@ -4,10 +4,21 @@ from app.api.routes import agent, partitions, metrics
 import oracledb
 from app.api.error_handler import oracle_error_handler
 
+from fastapi.middleware.cors import CORSMiddleware
+
 app = FastAPI(
     title="Gen-DBA API",
     description="He thong Tac tu AI tu dong toi uu phan manh du lieu Oracle 19c",
     version="0.1.0"
+)
+
+# Enable CORS for Next.js frontend
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 app.add_exception_handler(oracledb.DatabaseError, oracle_error_handler)

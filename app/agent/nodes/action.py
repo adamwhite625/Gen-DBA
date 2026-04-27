@@ -1,3 +1,4 @@
+"""Action node: executes approved DDL scripts with backup and audit."""
 from app.agent.state import AgentState, AgentPhase
 from app.db.oracle_client import oracle_client
 from app.db.ddl_manager import ddl_manager
