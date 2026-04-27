@@ -1,3 +1,4 @@
+"""Oracle database client for executing SQL and DDL commands."""
 import oracledb
 from app.config import settings
 
@@ -5,6 +6,7 @@ class OracleClient:
     """Client to execute SQL and DDL commands on Oracle 19c."""
     
     def __init__(self):
+        """Initialize Oracle connection parameters and configure Thin mode."""
         self.params = {
             "user": settings.ORACLE_USER,
             "password": settings.ORACLE_PASSWORD,

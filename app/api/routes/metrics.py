@@ -1,3 +1,4 @@
+"""API routes for performance metrics, benchmarking, and audit trail."""
 from fastapi import APIRouter
 from app.db.oracle_client import oracle_client
 from app.db.audit import get_audit_history

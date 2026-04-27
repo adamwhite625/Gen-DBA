@@ -1,3 +1,4 @@
+"""Safe DDL execution manager with backup and partition pruning verification."""
 from app.db.oracle_client import oracle_client
 from app.config import settings
 

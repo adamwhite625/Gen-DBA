@@ -1,3 +1,4 @@
+"""Structured JSON logging configuration for the Gen-DBA agent."""
 import logging
 import json
 from datetime import datetime
@@ -6,6 +7,7 @@ class JSONFormatter(logging.Formatter):
     """Format log records as JSON for structured logging."""
 
     def format(self, record):
+        """Convert a log record into a JSON-formatted string."""
         log_entry = {
             "timestamp": datetime.utcnow().isoformat(),
             "level": record.levelname,

@@ -1,3 +1,4 @@
+"""LangGraph workflow definition for the Gen-DBA agent pipeline."""
 import uuid
 from langgraph.graph import StateGraph, END
 from app.agent.state import AgentState, AgentPhase

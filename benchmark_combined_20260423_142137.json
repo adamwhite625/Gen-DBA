@@ -1,0 +1,299 @@
+{
+  "timestamp": "2026-04-23T14:21:37.273266",
+  "scenarios": {
+    "baseline": {
+      "Q1_pricing_summary": {
+        "name": "Pricing Summary (date filter on lineitem)",
+        "category": "date_range_scan",
+        "avg_elapsed_ms": 36.87,
+        "std_elapsed_ms": 2.87,
+        "min_elapsed_ms": 34.89,
+        "max_elapsed_ms": 41.96,
+        "avg_buffer_gets": 0,
+        "avg_disk_reads": 0,
+        "partition_pruning": false,
+        "rounds": 5
+      },
+      "Q3_shipping_priority": {
+        "name": "Shipping Priority (join with date filter)",
+        "category": "join_with_date_filter",
+        "avg_elapsed_ms": 51.36,
+        "std_elapsed_ms": 3.3,
+        "min_elapsed_ms": 48.88,
+        "max_elapsed_ms": 57.07,
+        "avg_buffer_gets": 0,
+        "avg_disk_reads": 0,
+        "partition_pruning": false,
+        "rounds": 5
+      },
+      "Q4_order_priority": {
+        "name": "Order Priority Check (date range on orders)",
+        "category": "date_range_scan",
+        "avg_elapsed_ms": 14.51,
+        "std_elapsed_ms": 0.76,
+        "min_elapsed_ms": 13.45,
+        "max_elapsed_ms": 15.59,
+        "avg_buffer_gets": 0,
+        "avg_disk_reads": 0,
+        "partition_pruning": false,
+        "rounds": 5
+      },
+      "Q6_revenue_forecast": {
+        "name": "Revenue Change Forecast (date + filter on lineitem)",
+        "category": "date_range_scan",
+        "avg_elapsed_ms": 22.22,
+        "std_elapsed_ms": 0.51,
+        "min_elapsed_ms": 21.79,
+        "max_elapsed_ms": 22.98,
+        "avg_buffer_gets": 1307,
+        "avg_disk_reads": 1045,
+        "partition_pruning": false,
+        "rounds": 5
+      },
+      "Q5_local_supplier_volume": {
+        "name": "Local Supplier Volume (multi-join with date)",
+        "category": "multi_join_date_filter",
+        "avg_elapsed_ms": 118.74,
+        "std_elapsed_ms": 12.43,
+        "min_elapsed_ms": 110.9,
+        "max_elapsed_ms": 140.56,
+        "avg_buffer_gets": 2909,
+        "avg_disk_reads": 1320,
+        "partition_pruning": false,
+        "rounds": 5
+      },
+      "Q12_shipping_mode": {
+        "name": "Shipping Mode (date range on lineitem)",
+        "category": "date_range_join",
+        "avg_elapsed_ms": 43.68,
+        "std_elapsed_ms": 2.44,
+        "min_elapsed_ms": 42.03,
+        "max_elapsed_ms": 47.93,
+        "avg_buffer_gets": 0,
+        "avg_disk_reads": 0,
+        "partition_pruning": false,
+        "rounds": 5
+      },
+      "Q14_promotion_effect": {
+        "name": "Promotion Effect (date range on lineitem)",
+        "category": "date_range_join",
+        "avg_elapsed_ms": 25.21,
+        "std_elapsed_ms": 0.63,
+        "min_elapsed_ms": 24.24,
+        "max_elapsed_ms": 25.79,
+        "avg_buffer_gets": 1455,
+        "avg_disk_reads": 1087,
+        "partition_pruning": false,
+        "rounds": 5
+      },
+      "full_table_scan": {
+        "name": "Full Table Scan (no filter - worst case)",
+        "category": "full_scan",
+        "avg_elapsed_ms": 14.02,
+        "std_elapsed_ms": 0.86,
+        "min_elapsed_ms": 13.33,
+        "max_elapsed_ms": 15.38,
+        "avg_buffer_gets": 406,
+        "avg_disk_reads": 199,
+        "partition_pruning": false,
+        "rounds": 5
+      }
+    },
+    "static": {
+      "Q1_pricing_summary": {
+        "name": "Pricing Summary (date filter on lineitem)",
+        "category": "date_range_scan",
+        "avg_elapsed_ms": 63.58,
+        "std_elapsed_ms": 3.91,
+        "min_elapsed_ms": 58.36,
+        "max_elapsed_ms": 68.0,
+        "avg_buffer_gets": 0,
+        "avg_disk_reads": 0,
+        "partition_pruning": true,
+        "rounds": 5
+      },
+      "Q3_shipping_priority": {
+        "name": "Shipping Priority (join with date filter)",
+        "category": "join_with_date_filter",
+        "avg_elapsed_ms": 62.47,
+        "std_elapsed_ms": 2.29,
+        "min_elapsed_ms": 60.43,
+        "max_elapsed_ms": 65.76,
+        "avg_buffer_gets": 0,
+        "avg_disk_reads": 0,
+        "partition_pruning": true,
+        "rounds": 5
+      },
+      "Q4_order_priority": {
+        "name": "Order Priority Check (date range on orders)",
+        "category": "date_range_scan",
+        "avg_elapsed_ms": 12.43,
+        "std_elapsed_ms": 0.43,
+        "min_elapsed_ms": 12.07,
+        "max_elapsed_ms": 13.14,
+        "avg_buffer_gets": 0,
+        "avg_disk_reads": 0,
+        "partition_pruning": true,
+        "rounds": 5
+      },
+      "Q6_revenue_forecast": {
+        "name": "Revenue Change Forecast (date + filter on lineitem)",
+        "category": "date_range_scan",
+        "avg_elapsed_ms": 24.54,
+        "std_elapsed_ms": 2.71,
+        "min_elapsed_ms": 22.04,
+        "max_elapsed_ms": 29.17,
+        "avg_buffer_gets": 829,
+        "avg_disk_reads": 199,
+        "partition_pruning": true,
+        "rounds": 5
+      },
+      "Q5_local_supplier_volume": {
+        "name": "Local Supplier Volume (multi-join with date)",
+        "category": "multi_join_date_filter",
+        "avg_elapsed_ms": 166.86,
+        "std_elapsed_ms": 39.59,
+        "min_elapsed_ms": 142.07,
+        "max_elapsed_ms": 235.94,
+        "avg_buffer_gets": 2995,
+        "avg_disk_reads": 1194,
+        "partition_pruning": true,
+        "rounds": 5
+      },
+      "Q12_shipping_mode": {
+        "name": "Shipping Mode (date range on lineitem)",
+        "category": "date_range_join",
+        "avg_elapsed_ms": 56.69,
+        "std_elapsed_ms": 2.49,
+        "min_elapsed_ms": 54.72,
+        "max_elapsed_ms": 60.81,
+        "avg_buffer_gets": 0,
+        "avg_disk_reads": 0,
+        "partition_pruning": true,
+        "rounds": 5
+      },
+      "Q14_promotion_effect": {
+        "name": "Promotion Effect (date range on lineitem)",
+        "category": "date_range_join",
+        "avg_elapsed_ms": 30.71,
+        "std_elapsed_ms": 6.89,
+        "min_elapsed_ms": 26.68,
+        "max_elapsed_ms": 42.95,
+        "avg_buffer_gets": 958,
+        "avg_disk_reads": 236,
+        "partition_pruning": true,
+        "rounds": 5
+      },
+      "full_table_scan": {
+        "name": "Full Table Scan (no filter - worst case)",
+        "category": "full_scan",
+        "avg_elapsed_ms": 17.69,
+        "std_elapsed_ms": 1.54,
+        "min_elapsed_ms": 16.38,
+        "max_elapsed_ms": 20.26,
+        "avg_buffer_gets": 466,
+        "avg_disk_reads": 212,
+        "partition_pruning": true,
+        "rounds": 5
+      }
+    },
+    "gendba": {
+      "Q1_pricing_summary": {
+        "name": "Pricing Summary (date filter on lineitem)",
+        "category": "date_range_scan",
+        "avg_elapsed_ms": 57.96,
+        "std_elapsed_ms": 2.9,
+        "min_elapsed_ms": 54.83,
+        "max_elapsed_ms": 62.52,
+        "avg_buffer_gets": 0,
+        "avg_disk_reads": 0,
+        "partition_pruning": true,
+        "rounds": 5
+      },
+      "Q3_shipping_priority": {
+        "name": "Shipping Priority (join with date filter)",
+        "category": "join_with_date_filter",
+        "avg_elapsed_ms": 59.32,
+        "std_elapsed_ms": 1.58,
+        "min_elapsed_ms": 57.64,
+        "max_elapsed_ms": 61.44,
+        "avg_buffer_gets": 0,
+        "avg_disk_reads": 0,
+        "partition_pruning": true,
+        "rounds": 5
+      },
+      "Q4_order_priority": {
+        "name": "Order Priority Check (date range on orders)",
+        "category": "date_range_scan",
+        "avg_elapsed_ms": 14.1,
+        "std_elapsed_ms": 2.23,
+        "min_elapsed_ms": 11.63,
+        "max_elapsed_ms": 17.0,
+        "avg_buffer_gets": 0,
+        "avg_disk_reads": 0,
+        "partition_pruning": true,
+        "rounds": 5
+      },
+      "Q6_revenue_forecast": {
+        "name": "Revenue Change Forecast (date + filter on lineitem)",
+        "category": "date_range_scan",
+        "avg_elapsed_ms": 17.05,
+        "std_elapsed_ms": 1.02,
+        "min_elapsed_ms": 16.0,
+        "max_elapsed_ms": 18.15,
+        "avg_buffer_gets": 504,
+        "avg_disk_reads": 183,
+        "partition_pruning": true,
+        "rounds": 5
+      },
+      "Q5_local_supplier_volume": {
+        "name": "Local Supplier Volume (multi-join with date)",
+        "category": "multi_join_date_filter",
+        "avg_elapsed_ms": 148.53,
+        "std_elapsed_ms": 3.15,
+        "min_elapsed_ms": 145.06,
+        "max_elapsed_ms": 152.32,
+        "avg_buffer_gets": 2926,
+        "avg_disk_reads": 1204,
+        "partition_pruning": true,
+        "rounds": 5
+      },
+      "Q12_shipping_mode": {
+        "name": "Shipping Mode (date range on lineitem)",
+        "category": "date_range_join",
+        "avg_elapsed_ms": 50.92,
+        "std_elapsed_ms": 1.22,
+        "min_elapsed_ms": 49.84,
+        "max_elapsed_ms": 52.72,
+        "avg_buffer_gets": 0,
+        "avg_disk_reads": 0,
+        "partition_pruning": true,
+        "rounds": 5
+      },
+      "Q14_promotion_effect": {
+        "name": "Promotion Effect (date range on lineitem)",
+        "category": "date_range_join",
+        "avg_elapsed_ms": 17.98,
+        "std_elapsed_ms": 0.6,
+        "min_elapsed_ms": 17.46,
+        "max_elapsed_ms": 18.97,
+        "avg_buffer_gets": 585,
+        "avg_disk_reads": 148,
+        "partition_pruning": true,
+        "rounds": 5
+      },
+      "full_table_scan": {
+        "name": "Full Table Scan (no filter - worst case)",
+        "category": "full_scan",
+        "avg_elapsed_ms": 19.46,
+        "std_elapsed_ms": 1.44,
+        "min_elapsed_ms": 18.27,
+        "max_elapsed_ms": 21.81,
+        "avg_buffer_gets": 499,
+        "avg_disk_reads": 221,
+        "partition_pruning": true,
+        "rounds": 5
+      }
+    }
+  }
+}

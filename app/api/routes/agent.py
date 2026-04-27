@@ -1,3 +1,4 @@
+"""API routes for triggering and managing the Gen-DBA agent."""
 from fastapi import APIRouter, HTTPException
 from app.agent.graph import agent_graph, create_new_run
 from app.api.routes.partitions import pending_states

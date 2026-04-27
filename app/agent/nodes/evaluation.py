@@ -1,3 +1,4 @@
+"""Evaluation node: verifies execution results and gathers post-change stats."""
 from app.agent.state import AgentState, AgentPhase, PerformanceSnapshot
 from app.db.oracle_client import oracle_client
 from app.db import queries

@@ -1,3 +1,4 @@
+"""Validation node: validates DDL syntax and safety before execution."""
 from app.agent.state import AgentState, AgentPhase
 
 def validation_node(state: AgentState) -> AgentState:

@@ -12,9 +12,22 @@ services:
       - .env
     environment:
       # Override the DSN to point to the host machine for Oracle connection
-      - ORACLE_DSN=host.docker.internal:1521/orcl2
+      - ORACLE_DSN=host.docker.internal:1521/orclpdb
     volumes:
       - ./gendba_audit.log:/app/gendba_audit.log
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: gendba-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+    depends_on:
+      - gendba-api
     restart: unless-stopped
