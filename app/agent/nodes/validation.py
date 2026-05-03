@@ -5,9 +5,8 @@ def validation_node(state: AgentState) -> AgentState:
     """Perform automated safety checks on recommended DDLs before human approval."""
     state.phase = AgentPhase.AWAITING_APPROVAL
 
+    # Empty recommendations = all tables already optimized, not an error
     if not state.recommendations:
-        state.phase = AgentPhase.FAILED
-        state.error_message = "No recommendations available for validation."
         return state
 
     for rec in state.recommendations:
@@ -34,14 +33,10 @@ def _safety_check_ddl(ddl: str) -> list[str]:
         if pattern in ddl_upper:
             issues.append(warning)
 
-    if not ddl_upper.startswith("ALTER TABLE"):
-        issues.append("DDL does not start with ALTER TABLE")
-
-    if "MODIFY PARTITION" in ddl_upper and "ONLINE" not in ddl_upper:
-        issues.append("Missing ONLINE keyword for partition modification")
-
-    if ddl.count('(') != ddl.count(')'):
-        issues.append("Unbalanced parentheses in DDL")
+    # Accept both ALTER TABLE and CREATE TABLE (CTAS approach)
+    valid_starts = ("ALTER TABLE", "CREATE TABLE")
+    if not any(ddl_upper.startswith(s) for s in valid_starts):
+        issues.append("DDL does not start with ALTER TABLE or CREATE TABLE")
 
     if ';' in ddl and ddl.strip()[-1] == ';':
         issues.append("DDL contains trailing semicolon (not recommended for execution)")

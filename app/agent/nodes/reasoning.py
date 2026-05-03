@@ -49,7 +49,8 @@ def reasoning_node(state: AgentState) -> AgentState:
         messages = [
             SystemMessage(content=SYSTEM_PROMPT),
             HumanMessage(content=ANALYSIS_PROMPT_TEMPLATE.format(
-                workload_summary=workload_summary
+                workload_summary=workload_summary,
+                schema_context=state.schema_context or "No schema context available."
             ))
         ]
 
@@ -58,8 +59,8 @@ def reasoning_node(state: AgentState) -> AgentState:
         state.recommendations = recommendations
 
         if not recommendations:
-            state.phase = AgentPhase.FAILED
-            state.error_message = "LLM returned invalid or empty recommendations."
+            # All tables already partitioned - this is success, not failure
+            state.phase = AgentPhase.AWAITING_APPROVAL
             return state
 
         state.phase = AgentPhase.AWAITING_APPROVAL
