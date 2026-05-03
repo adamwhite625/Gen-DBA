@@ -42,6 +42,7 @@ class AgentState(BaseModel):
     run_id: str = ""
     phase: AgentPhase = AgentPhase.IDLE
     workload_entries: List[WorkloadEntry] = []
+    schema_context: str = ""
     recommendations: List[PartitionRecommendation] = []
     is_approved: Optional[bool] = None
     executed_ddl: List[str] = []
@@ -49,3 +50,4 @@ class AgentState(BaseModel):
     before_snapshot: Optional[PerformanceSnapshot] = None
     after_snapshot: Optional[PerformanceSnapshot] = None
     improvement_report: str = ""
+
