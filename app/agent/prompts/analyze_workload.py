@@ -14,7 +14,7 @@ You must:
 1. Identify tables that would benefit most from partitioning based on workload patterns
 2. Recommend the most suitable partitioning strategy and key
 3. Generate valid Oracle 19c DDL scripts using CTAS approach
-4. Explain your reasoning clearly
+4. Explain your reasoning clearly IN VIETNAMESE (tiếng Việt)
 5. Assess the risk level of each recommendation
 
 CRITICAL DDL RULES:
@@ -77,7 +77,7 @@ Return a JSON array with this exact structure:
     "strategy": "RANGE",
     "partition_key": "COLUMN_NAME",
     "ddl_script": "CREATE TABLE ... PARTITION BY RANGE(...) (...) AS SELECT * FROM ...\\nALTER TABLE ... RENAME TO ..._HEAP_BACKUP\\nALTER TABLE ..._PARTITIONED RENAME TO ...",
-    "reasoning": "Explanation of why this partitioning improves performance...",
+    "reasoning": "Explanation of why this partitioning improves performance (MUST BE IN VIETNAMESE - Tiếng Việt)...",
     "risk_level": "low"
   }}
 ]
