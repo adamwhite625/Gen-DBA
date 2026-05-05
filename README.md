@@ -40,13 +40,82 @@ Gen-DBA operates on a microservices architecture bridging an AI Agent with physi
    +----------------------------------------------------+
 ```
 
+**Agent Pipeline:**
+
+1. **Perception** - Collects workload data from Oracle `V$SQLAREA` and `DBA_TABLES`
+2. **Reasoning** - Sends workload summary to OpenAI for partition strategy analysis
+3. **Validation** - Validates the generated DDL syntax and safety
+4. **Action** - Executes DDL with backup, audit logging, and partition pruning verification
+5. **Evaluation** - Verifies execution results and gathers post-change statistics
+
+### Tech Stack
+
+| Component | Technology |
+|-----------|-----------|
+| Agent Framework | LangGraph 1.1 |
+| LLM | OpenAI GPT-4o-mini |
+| Backend API | FastAPI + Uvicorn |
+| Database | Oracle Database 19c Enterprise Edition |
+| DB Driver | python-oracledb (Thin mode) |
+| Configuration | Pydantic Settings + dotenv |
+| Logging | Structured JSON (file + console) |
+| Containerization | Docker + Docker Compose |
+| Benchmark | TPC-H queries + matplotlib |
+
+### Project Structure
+
+```text
+gen-dba/
+|-- app/
+|   |-- agent/
+|   |   |-- nodes/          # LangGraph pipeline nodes
+|   |   |   |-- perception.py
+|   |   |   |-- reasoning.py
+|   |   |   |-- validation.py
+|   |   |   |-- action.py
+|   |   |   |-- evaluation.py
+|   |   |-- prompts/         # LLM prompt templates
+|   |   |-- graph.py         # LangGraph workflow definition
+|   |   |-- state.py         # Agent state schema
+|   |-- api/
+|   |   |-- routes/
+|   |   |   |-- agent.py     # /api/agent/* endpoints
+|   |   |   |-- partitions.py # /api/partitions/* endpoints
+|   |   |   |-- metrics.py   # /api/metrics/* endpoints
+|   |   |-- error_handler.py # Global exception handlers
+|   |-- db/
+|   |   |-- oracle_client.py # Oracle connection and query execution
+|   |   |-- ddl_manager.py   # Safe DDL execution with backup
+|   |   |-- audit.py         # Audit trail for DDL operations
+|   |   |-- queries.py       # SQL query definitions
+|   |-- config.py            # Application settings
+|   |-- logger.py            # Structured JSON logger
+|   |-- main.py              # FastAPI application entry point
+|-- scripts/
+|   |-- benchmark.py              # Benchmark runner
+|   |-- benchmark_queries.py      # TPC-H query definitions
+|   |-- run_all_benchmarks.py     # Full 3-scenario benchmark suite
+|   |-- visualize_results.py      # Chart generation from results
+|   |-- setup_db_user.py          # Oracle user setup
+|   |-- test_pipeline.py          # Agent pipeline test
+|-- tests/
+|   |-- test_oracle_connection.py # Oracle connection unit tests
+|-- docs/
+|   |-- EVALUATION_REPORT.md      # Performance evaluation report
+|-- benchmark_charts/             # Generated charts (PNG)
+|-- Dockerfile
+|-- docker-compose.yml
+|-- requirements.txt
+|-- .env.example
+```
+
 ## 4. Installation
 
 ### Prerequisites
-- Python 3.11+
-- Node.js 18+
-- Oracle Database 19c Enterprise Edition
-- OpenAI API Key
+- **Python 3.11+** (via Anaconda recommended)
+- **Oracle Database 19c** Enterprise Edition with Partitioning option
+- **Docker Desktop** (optional, for containerized deployment)
+- **OpenAI API Key** with access to GPT-4o-mini
 
 ### Setup Backend
 ```bash
@@ -72,6 +141,18 @@ cd frontend
 npm install
 npm run dev
 ```
+
+### Key API Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/agent/analyze` | Trigger workload analysis |
+| POST | `/api/partitions/approve/{run_id}` | Approve partition recommendations |
+| POST | `/api/agent/execute/{run_id}` | Execute approved DDL |
+| GET | `/api/metrics/performance` | View top queries and table sizes |
+| GET | `/api/metrics/partitions/summary` | View partition layout |
+| GET | `/api/metrics/audit` | View DDL audit trail |
+| GET | `/api/metrics/health/oracle` | Check Oracle connection |
 
 ## 5. Environment Variables
 Copy `.env.example` to `.env` in the root directory and configure the variables:
